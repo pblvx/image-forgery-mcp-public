@@ -1,0 +1,13 @@
+.env
+outputs/
+__pycache__/
+.mypy_cache/
+*.pyc
+.pytest_cache/
+tests/datasets/*
+.venv/
+*.egg-info/
+!tests/datasets/
+!tests/datasets/README.md
+!tests/datasets/.gitkeep
+Practica_MCP_Forense.pdf

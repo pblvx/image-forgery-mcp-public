@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-forgery-detector"
+version = "1.0.0"
+description = "Servidor MCP para Detección Forense de Imágenes"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp",
+    "fastmcp",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "numpy",
+    "opencv-python-headless",
+    "Pillow",
+    "piexif",
+    "python-magic"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "mypy",
+    "types-Pillow"
+]
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true

@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  mcp-forgery-detector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mcp-forgery-detector:latest
+    container_name: mcp-forgery-detector
+    environment:
+      ENABLE_ELA:        ${ENABLE_ELA:-true}
+      ENABLE_NOISE:      ${ENABLE_NOISE:-true}
+      ENABLE_SHARPNESS:  ${ENABLE_SHARPNESS:-true}
+      ENABLE_COPY_MOVE:  ${ENABLE_COPY_MOVE:-false}
+      ENABLE_JPEG:       ${ENABLE_JPEG:-true}
+      ENABLE_METADATA:   ${ENABLE_METADATA:-true}
+      ELA_QUALITY:       ${ELA_QUALITY:-90}
+      ELA_AMPLIFY:       ${ELA_AMPLIFY:-15}
+      LOG_LEVEL:         ${LOG_LEVEL:-INFO}
+    volumes:
+      - ./outputs:/outputs
+    stdin_open: true
+    tty: false
+    healthcheck:
+      test: ['CMD', 'python', '-c', 'from forgery_detector.server import mcp; print("ok")']
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
