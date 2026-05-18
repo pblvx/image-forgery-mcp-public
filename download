@@ -1,0 +1,95 @@
+import numpy as np
+from dataclasses import dataclass, field
+
+
+@dataclass
+class IngestionResult:
+    sha256: str
+    mime_detected: str
+    extension_declared: str
+    extension_mismatch: bool
+    width: int
+    height: int
+    image_rgb: np.ndarray
+    image_gray: np.ndarray
+    is_jpeg: bool
+
+
+@dataclass
+class MetadataFinding:
+    type: str
+    severity: str
+    description: str
+    evidence: str
+    interpretation: str
+
+
+@dataclass
+class MetadataResult:
+    exif_present: bool
+    xmp_present: bool
+    software: str | None
+    creation_date: str | None
+    modification_date: str | None
+    dpi: int | None
+    color_space: str | None
+    metadata_risk_score: float
+    findings: list[MetadataFinding] = field(default_factory=list)
+    limitations: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ELAResult:
+    ela_image: np.ndarray
+    ela_score: float
+    anomalous_regions: list[tuple[int, int, int, int, float]]
+    limitations: list[str] = field(default_factory=list)
+
+
+@dataclass
+class NoiseResult:
+    noise_map: np.ndarray
+    noise_score: float
+    anomalous_regions: list[tuple[int, int, int, int, float]]
+    limitations: list[str] = field(default_factory=list)
+
+
+@dataclass
+class SharpnessResult:
+    sharpness_map: np.ndarray
+    blur_score: float
+    sharp_anomaly_score: float
+    anomalous_regions: list[tuple[int, int, int, int, float]]
+    limitations: list[str] = field(default_factory=list)
+
+
+@dataclass
+class JpegResult:
+    jpeg_score: float
+    limitations: list[str] = field(default_factory=list)
+
+
+@dataclass
+class CopyMoveResult:
+    copy_move_score: float
+    limitations: list[str] = field(default_factory=list)
+
+
+@dataclass
+class FusionResult:
+    heatmap: np.ndarray
+    visual_score: float
+
+
+@dataclass
+class ForgeryScore:
+    ela_score: float
+    noise_score: float
+    jpeg_score: float
+    edge_score: float
+    blur_score: float
+    resampling_score: float
+    metadata_score: float
+    container_score: float
+    final_score: float
+    decision: str
